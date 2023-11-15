@@ -44,7 +44,7 @@ int main()
     start_text.setPosition(150, 100);
     start_text.setString("Press any key to start.");
 
-    ///
+    bool titleScreen = true;
 
 
 
@@ -67,8 +67,13 @@ int main()
 				window.close();
             }
 
+            if (event.type == Event::KeyPressed && titleScreen)
+            {
+                titleScreen = false;
+            }
 
-            if (event.type == sf::Event::MouseButtonPressed)
+
+            if (!titleScreen && event.type == sf::Event::MouseButtonPressed)
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
@@ -102,7 +107,7 @@ int main()
 
         if(points.size() > 0)
         {
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < 100; i++)
             {
                 double midpoint_x, midpoint_y;
 
@@ -126,14 +131,27 @@ int main()
 		*/
         window.clear();
 
-
-        for(int i = 0; i < points.size(); i++)
+        if (titleScreen)
         {
-            RectangleShape rect(Vector2f(10,10));
-            rect.setPosition(Vector2f(points[i].x, points[i].y));
-            rect.setFillColor(Color::Blue);
-            window.draw(rect);
+            window.draw(title_text);
+            window.draw(start_text);
         }
+        else
+        {
+            text.setString("This is your fractal pattern. Press ESC to exit");
+            window.draw(text)
+
+            ///use the rect to print our the fractal
+            for(int i = 0; i < points.size(); i++)
+            {
+                RectangleShape rect(Vector2f(10,10));
+                rect.setPosition(Vector2f(points[i].x, points[i].y));
+                rect.setFillColor(Color::Blue);
+                window.draw(rect);
+            }
+        }
+
+
         window.display();
     }
 }
