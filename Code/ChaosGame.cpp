@@ -20,6 +20,36 @@ int main()
     vector<Vector2f> vertices;
     vector<Vector2f> points;
 
+    ///load the font and if fail to load display error message & quit program
+    Font font;
+    if (!font.loadfromFile("ARCHITIC.TTF"));
+    {
+        cout << "Error loading font!" << endl;
+        return -1;
+    }
+
+    ///Title text
+    Text title_text;
+    title_text.setFont(font);
+    title_text.setCharacterSize(250);
+    title_text.setFillColor(Color::White);
+    title_text.setPosition(150,150);
+    title_text.setString("Chaos Game");
+
+    //Start text
+    Text start_text;
+    start_text.setFont(font);
+    start_text.setCharacterSize(50);
+    start_text.setFillColor(Color::White);
+    start_text.setPosition(150, 100);
+    start_text.setString("Press any key to start.");
+
+    ///
+
+
+
+
+
 	while (window.isOpen())
 	{
         /*
@@ -27,6 +57,7 @@ int main()
 		Handle the players input
 		****************************************
 		*/
+
         Event event;
 		while (window.pollEvent(event))
 		{
@@ -35,6 +66,8 @@ int main()
 				// Quit the game when the window is closed
 				window.close();
             }
+
+
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
@@ -77,11 +110,11 @@ int main()
                 int random = rand() % vertices.size();
 
                 ///calculate midpoint between random vertex and last point in vector
-                midpoint_x = ((vertices.at(random).x) - (points.back().x) / 2);
-                midpoint_y = ((vertices.at(random).y) - (points.back().y) / 2);
+                midpoint_x = (((vertices.at(random).x) - (points.back().x)) / 2);
+                midpoint_y = (((vertices.at(random).y) - (points.back().y)) / 2);
 
                 ///push back the new coord
-                points.pusback(Vector2f(midpoint_x,midpoint_y));
+                points.pusback(Vector2f(midpoint_x, midpoint_y));
 
             }
         }
@@ -92,10 +125,12 @@ int main()
 		****************************************
 		*/
         window.clear();
-        for(int i = 0; i < vertices.size(); i++)
+
+
+        for(int i = 0; i < points.size(); i++)
         {
             RectangleShape rect(Vector2f(10,10));
-            rect.setPosition(Vector2f(vertices[i].x, vertices[i].y));
+            rect.setPosition(Vector2f(points[i].x, points[i].y));
             rect.setFillColor(Color::Blue);
             window.draw(rect);
         }
